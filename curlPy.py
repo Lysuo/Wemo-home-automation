@@ -1,5 +1,5 @@
-import os
-import time
+import os, time
+from random import randint
 
 agentuser = ''
 ip = '192.168.0.126'
@@ -89,10 +89,8 @@ if __name__ == '__main__':
   while True:
 #    print "\n\nTURN ON"
     on()
-    time.sleep(8)
+    time.sleep(randint(5,120))
 
 #    print "\nTURN OFF"
     off()
-    time.sleep(5)
-
-
+    time.sleep(randint(5,120))
