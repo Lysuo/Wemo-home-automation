@@ -20,8 +20,10 @@ else
   PORTTEST=$(curl -m 1 --connect-timeout 1 -s $IP:49152 | grep "404")
   if [ $? -ne 0 -o "$PORTTEST" = "" ]; then
     PORT=49153
+    echo $PORT
   else
     PORT=49152
+    echo $PORT
   fi
 fi
 
