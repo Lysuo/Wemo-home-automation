@@ -7,7 +7,7 @@ import subprocess
 #print "program output:", out
 
 agentuser = ''
-ip = '192.168.0.126'
+ip = '192.168.0.123'
 port = '49153'
 url = 'http://'+ip+':'+port+'/upnp/control/basicevent1'
 
@@ -23,7 +23,7 @@ dataHead = '\'<?xml version=\"1.0\" encoding=\"utf-8\"?><s:Envelope xmlns:s=\"ht
 dataEnd = '</s:Body></s:Envelope>\''
 
 # start building the request
-req = "curl -0"
+req = "curl --connect-timeout 1 -0"
 req += " -A " + agentuser
 for e in headers:
   req += " -H " + e
@@ -32,7 +32,6 @@ for e in headers:
 def getResponse(inCmd):
   proc = subprocess.Popen([inCmd], stdout=subprocess.PIPE, shell=True)
   (out, err) = proc.communicate()
-  print "program output:", out
   return out
 
 # getState function, retrieve state ON or OFF
@@ -43,9 +42,10 @@ def getstate():
   request += " --data " + data
   request += " -s " + url
   
+#  os.system(request + grepCmdBS)
   out = getResponse(request + grepCmdBS)
+  print request
   print out
-
 
 # turn the device ON
 def on():
@@ -73,14 +73,20 @@ def signalstrength():
   request += " --data " + data
   request += " -s " + url
 
+  out = getResponse(request + grepCmdSS)
+  print out
 
-# turn the device OFF
+
+# get the friendly name of device 
 def friendlyname():
   data = dataHead + '<u:GetFriendlyName xmlns:u=\"urn:Belkin:service:basicevent:1\"><FriendlyName>0</FriendlyName></u:GetFriendlyName>' + dataEnd
 
   request = req + " -H " +  '\'SOAPACTION: \"urn:Belkin:service:basicevent:1#GetFriendlyName\"\''
   request += " --data " + data
   request += " -s " + url
+
+  out = getResponse(request + grepCmdFN)
+  print out
 
 if __name__ == '__main__':
 
@@ -89,11 +95,11 @@ if __name__ == '__main__':
   signalstrength()
   friendlyname()
 
-  while True:
+#  while True:
 #    print "\n\nTURN ON"
-    on()
-    time.sleep(randint(5,120))
+#    on()
+#    time.sleep(randint(5,120))
 
 #    print "\nTURN OFF"
-    off()
-    time.sleep(randint(5,120))
+#    off()
+#    time.sleep(randint(5,120))

@@ -1,0 +1,27 @@
+<html>
+<head>
+	<title>WHA</title>	
+	<link rel="stylesheet" href="css/bootstrap.css">	
+	
+</head>
+
+<body>
+	
+	<div class="container">
+	<hr />
+	<label></label>
+    <input type="text" id="ip_wha" value="192.168.0.123" />
+	<input type="button" value="Submit" onclick="ajaxCall()"/>
+	
+	<br /><br />
+	<div class="panel panel-default"><div class="panel-body">	
+		<span id="results"></span>	<br /><br />
+		<input type="button" id="switch" value="Turn ON" onclick="switchState()" style="display: none;"/>		
+	</div></div>
+	
+	</div>
+		
+	<script src="js/jquery-1.11.2.min.js"></script>
+	<script src="js/own-js.js"></script>
+</body>
+</html>
