@@ -1,5 +1,10 @@
 import os, time
 from random import randint
+import subprocess
+
+#proc = subprocess.Popen(["cat", "/etc/services"], stdout=subprocess.PIPE, shell=True)
+#(out, err) = proc.communicate()
+#print "program output:", out
 
 agentuser = ''
 ip = '192.168.0.126'
@@ -24,6 +29,12 @@ for e in headers:
   req += " -H " + e
 
 
+def getResponse(inCmd):
+  proc = subprocess.Popen([inCmd], stdout=subprocess.PIPE, shell=True)
+  (out, err) = proc.communicate()
+  print "program output:", out
+  return out
+
 # getState function, retrieve state ON or OFF
 def getstate():
   data = dataHead + '<u:GetBinaryState xmlns:u=\"urn:Belkin:service:basicevent:1\"><BinaryState>1</BinaryState></u:GetBinaryState>' + dataEnd
@@ -31,8 +42,9 @@ def getstate():
   request = req + " -H " +  '\'SOAPACTION: \"urn:Belkin:service:basicevent:1#GetBinaryState\"\''
   request += " --data " + data
   request += " -s " + url
-
-  os.system(request + grepCmdBS)
+  
+  out = getResponse(request + grepCmdBS)
+  print out
 
 
 # turn the device ON
@@ -43,8 +55,6 @@ def on():
   request += " --data " + data
   request += " -s " + url
 
-  os.system(request + grepCmdBS)
-
 
 # turn the device OFF
 def off():
@@ -53,8 +63,6 @@ def off():
   request = req + " -H " +  '\'SOAPACTION: \"urn:Belkin:service:basicevent:1#SetBinaryState\"\''
   request += " --data " + data
   request += " -s " + url
-
-  os.system(request + grepCmdBS)
 
   
 # get the signal strenght, between 0 and 100 
@@ -65,9 +73,6 @@ def signalstrength():
   request += " --data " + data
   request += " -s " + url
 
-  #os.system(request)
-  os.system(request + grepCmdSS)
-
 
 # turn the device OFF
 def friendlyname():
@@ -76,8 +81,6 @@ def friendlyname():
   request = req + " -H " +  '\'SOAPACTION: \"urn:Belkin:service:basicevent:1#GetFriendlyName\"\''
   request += " --data " + data
   request += " -s " + url
-
-  os.system(request + grepCmdFN)
 
 if __name__ == '__main__':
 
