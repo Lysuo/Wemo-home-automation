@@ -1,4 +1,4 @@
 <devices>
-<device name="device1" ip="192.168.0.123" mac=""></device>
-<device name="device2" ip="192.168.0.125" mac=""></device>
+<device name="device1" ip="192.168.0.123" mac="94:10:3E:47:DF:D5"></device>
+<device name="device2" ip="192.168.0.125" mac="94:10:3E:48:05:71"></device>
 </devices>
