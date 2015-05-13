@@ -88,12 +88,26 @@ def friendlyname():
   out = getResponse(request + grepCmdFN)
   print out
 
+# set the friendly name of device 
+def setFriendlyName():
+  data = dataHead + '<u:SetFriendlyName xmlns:u=\"urn:Belkin:service:basicevent:1\"><FriendlyName>Hey buddy</FriendlyName></u:SetFriendlyName>' + dataEnd
+
+  request = req + " -H " +  '\'SOAPACTION: \"urn:Belkin:service:basicevent:1#SetFriendlyName\"\''
+  request += " --data " + data
+  request += " -s " + url
+
+  out = getResponse(request + grepCmdFN)
+  print out
+
 if __name__ == '__main__':
 
   print "\nGETSTATE"
   getstate()
   signalstrength()
   friendlyname()
+
+  time.sleep(2)
+  setFriendlyName()
 
 #  while True:
 #    print "\n\nTURN ON"

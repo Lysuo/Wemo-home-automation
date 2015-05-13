@@ -18,6 +18,7 @@ $xml = [
 	];
 
 $return_arr = array();
+$return_arr["IP"] = $IP;
 	
 for ($i=0; $i<3; $i++) {
 
