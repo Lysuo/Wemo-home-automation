@@ -2,8 +2,8 @@ var devices = {};
 
 $(function(){
 
-	devices["device1"] = "192.168.0.123";
-	devices["device2"] = "192.168.0.125";
+	devices["device1"] = "192.168.0.103";
+	devices["device2"] = "192.168.0.102";
 	getState("device1", devices["device1"]);
 	getState("device2", devices["device2"]);
 	
