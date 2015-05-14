@@ -1,14 +1,43 @@
 var devices = {};
+var devicesRes;
 
 $(function(){
-
-	devices["device1"] = "192.168.0.103";
-	devices["device2"] = "192.168.0.102";
-	getState("device1", devices["device1"]);
-	getState("device2", devices["device2"]);
-	
+	getDevices();
+	//getState("device1", "192.168.0.100");
 }); 
 
+function getDevices() {
+	$.ajax({
+        type: 'GET' ,
+        url: "api/getDevices.php",
+        contentType: "application/x-www-form-urlencoded;charset=utf-8",
+		data:{},
+        datatype: "json",
+        async: true,
+	
+	success : function(data) {
+		devicesRes=JSON.parse(data);	
+		
+		for (var i = 0, dev; i < devicesRes.device.length; i++) {
+		   dev = devicesRes.device[i];
+		   devices[ dev.name ] = dev.ip;
+		}
+		
+		console.log(devices);		
+		
+		for (var i in devices) {
+		   getState(i, devices[i]);
+		}
+	
+	},	
+	fail : function() {
+		alert( "error" );
+	},	
+	always : function() {
+		alert( "finished" );
+	}
+	});
+}
 
 function getState(deviceName, ip) {
 	
@@ -22,8 +51,7 @@ function getState(deviceName, ip) {
 	
 	success : function(data) {
 	  data=JSON.parse(data);
-	  console.log(data);
-	  
+	  console.log(data);	  
 	  
 	  appendHTMLDevice(deviceName);
 	  

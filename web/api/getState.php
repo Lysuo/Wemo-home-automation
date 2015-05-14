@@ -39,7 +39,8 @@ for ($i=0; $i<3; $i++) {
 	$matches = array();
 
 	if (curl_errno($ch)) { 
-	  print "Error: " . curl_error($ch);
+		  $return_arr["Error"] = "Error: " . curl_error($ch);
+		  break;
 	} else { 
 	    
 	  if ($i == 0) {
