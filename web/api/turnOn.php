@@ -23,7 +23,7 @@ $return_arr["IP"] = $IP;
 for ($i=0; $i<3; $i++) {
 
 	$ch = curl_init($theurl);
-	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT ,3);
+	curl_setopt($ch, CURLOPT_TIMEOUT, 3);
 	curl_setopt($ch,CURLOPT_USERAGENT, '');
 	curl_setopt($ch, CURLOPT_HEADER, TRUE);
 	curl_setopt($ch, CURLOPT_HTTPHEADER, ['Accept: ', 'Content-Length: ' . strlen($xml[$i]), 'Content-type: text/xml; charset="utf-8"', $headers[$i]]);
@@ -39,7 +39,10 @@ for ($i=0; $i<3; $i++) {
 	$matches = array();
 
 	if (curl_errno($ch)) { 
-	  print "Error: " . curl_error($ch);
+		$return_arr["State"] = "Unreachable";
+		$return_arr["Signal strength"] = "N/A";
+		$return_arr["Friendly name"] = "N/A";
+		break;
 	} else { 
 	    
 	  if ($i == 0) {
