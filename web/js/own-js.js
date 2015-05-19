@@ -20,7 +20,7 @@ function getDevices() {
 		
 		for (var i = 0, dev; i < devicesRes.device.length; i++) {
 		   dev = devicesRes.device[i];
-		   devices[ dev.name ] = dev.ip;
+		   devices[ dev.id ] = dev.ip;
 		}
 		
 		console.log(devices);		
@@ -39,7 +39,7 @@ function getDevices() {
 	});
 }
 
-function getState(deviceName, ip) {
+function getState(deviceID, ip) {
 	
 	$.ajax({
         type: 'GET' ,
@@ -53,26 +53,26 @@ function getState(deviceName, ip) {
 	  data=JSON.parse(data);
 	  console.log(data);	  
 	  
-	  appendHTMLDevice(deviceName);
+	  appendHTMLDevice(deviceID);
 	  
-	  $('#results-'+deviceName).text("");
+	  $('#results-'+deviceID).text("");
 	  var res = "";
 	  $.each(data, function(i, item){
         res += "<strong>" +i+ "</strong>: " + item + " <br/>";
 		if (i=="State") {
 			if (item == "ON") {
-				$('#switch-'+deviceName).attr('style', 'display: visible;');
-				$('#switch-'+deviceName).attr('value', 'Turn OFF');
+				$('#switch-'+deviceID).attr('style', 'display: visible;');
+				$('#switch-'+deviceID).attr('value', 'Turn OFF');
 			} else if (item == "OFF") {
-				$('#switch-'+deviceName).attr('style', 'display: visible;');
-				$('#switch-'+deviceName).attr('value', 'Turn ON');
+				$('#switch-'+deviceID).attr('style', 'display: visible;');
+				$('#switch-'+deviceID).attr('value', 'Turn ON');
 			} else {
-				$('#switch-'+deviceName).attr('style', 'display: none;');
+				$('#switch-'+deviceID).attr('style', 'display: none;');
 			}
 		}
       });
 	  
-	  $(res).appendTo('#results-'+deviceName);
+	  $(res).appendTo('#results-'+deviceID);
 	  
 	},	
 	fail : function() {
@@ -98,7 +98,7 @@ function appendHTMLDevice(device) {
 
 function switchState(button) {
 		var state = $('#'+button.id).val();
-		var deviceName = button.id.substring(7);		
+		var deviceID = button.id.substring(7);		
 		
 		$('#'+button.id).attr('disabled', true);
 		var url = "api/";
@@ -108,41 +108,41 @@ function switchState(button) {
 		} else if (state == "Turn OFF") {
 			url += "turnOff.php";
 		}
-		switchWemo(url, deviceName);
+		switchWemo(url, deviceID);
 }
 	
-function switchWemo(urlSwitch, deviceName) {	
+function switchWemo(urlSwitch, deviceID) {	
 		
 	$.ajax({
         type: 'GET' ,
         url: urlSwitch,
         contentType: "application/x-www-form-urlencoded;charset=utf-8",
-		data:{'ip': devices[deviceName]},
+		data:{'ip': devices[deviceID]},
         datatype: "json",
         async: true,
 	
 	success : function(data) {
 	  data=JSON.parse(data);
 	  
-	  $('#results-'+deviceName).text("");
+	  $('#results-'+deviceID).text("");
 	  var res = "";
 	  $.each(data, function(i, item){
         res += "<strong>" +i+ "</strong>: " + item + " <br/>";
 		if (i=="State") {
-			$('#switch-'+deviceName).attr('disabled', false);
+			$('#switch-'+deviceID).attr('disabled', false);
 			if (item == "ON") {
-				$('#switch-'+deviceName).attr('style', 'display: visible;');
-				$('#switch-'+deviceName).attr('value', 'Turn OFF');
+				$('#switch-'+deviceID).attr('style', 'display: visible;');
+				$('#switch-'+deviceID).attr('value', 'Turn OFF');
 			} else if (item == "OFF") {
-				$('#switch-'+deviceName).attr('style', 'display: visible;');
-				$('#switch-'+deviceName).attr('value', 'Turn ON');
+				$('#switch-'+deviceID).attr('style', 'display: visible;');
+				$('#switch-'+deviceID).attr('value', 'Turn ON');
 			} else {
-				$('#switch-'+deviceName).attr('style', 'display: none;');
+				$('#switch-'+deviceID).attr('style', 'display: none;');
 			}
 		}
       });
 	  
-	  $(res).appendTo('#results-'+deviceName); 	  
+	  $(res).appendTo('#results-'+deviceID); 	  
 	  //getState();	  
 	},	
 	fail : function() {
