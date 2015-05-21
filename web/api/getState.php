@@ -53,7 +53,7 @@ for ($i=0; $i<3; $i++) {
 		  preg_match("/<SignalStrength>[0-9]*/", $data, $matches);
 		  $return_arr["Signal strength"] = substr($matches[0], 16);
 	  } else if ($i == 2) {
-		  preg_match("/<FriendlyName>([A-Z]|[a-z]| )*/", $data, $matches);
+		  preg_match("/<FriendlyName>([0-9]|[A-Z]|[a-z]| )*/", $data, $matches);
 		  $return_arr["Friendly name"] = substr($matches[0], 14);
 	  }	  
 	  curl_close($ch); 
