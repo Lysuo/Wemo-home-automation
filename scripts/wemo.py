@@ -7,7 +7,7 @@ import subprocess
 #print "program output:", out
 
 agentuser = ''
-ip = '192.168.0.123'
+ip = '192.168.0.120'
 port = '49153'
 url = 'http://'+ip+':'+port+'/upnp/control/basicevent1'
 
@@ -42,10 +42,10 @@ def getstate():
   request += " --data " + data
   request += " -s " + url
   
-#  os.system(request + grepCmdBS)
-  out = getResponse(request + grepCmdBS)
-  print request
+  out = getResponse(request)
+  #out = getResponse(request + grepCmdBS)
   print out
+  print "################"
 
 # turn the device ON
 def on():
@@ -55,6 +55,10 @@ def on():
   request += " --data " + data
   request += " -s " + url
 
+  out = getResponse(request)
+  #out = getResponse(request + grepCmdBS)
+  print out
+
 
 # turn the device OFF
 def off():
@@ -63,6 +67,10 @@ def off():
   request = req + " -H " +  '\'SOAPACTION: \"urn:Belkin:service:basicevent:1#SetBinaryState\"\''
   request += " --data " + data
   request += " -s " + url
+
+  out = getResponse(request)
+  #out = getResponse(request + grepCmdBS)
+  print out
 
   
 # get the signal strenght, between 0 and 100 
@@ -90,7 +98,7 @@ def friendlyname():
 
 # set the friendly name of device 
 def setFriendlyName():
-  data = dataHead + '<u:SetFriendlyName xmlns:u=\"urn:Belkin:service:basicevent:1\"><FriendlyName>Hey buddy</FriendlyName></u:SetFriendlyName>' + dataEnd
+  data = dataHead + '<u:SetFriendlyName xmlns:u=\"urn:Belkin:service:basicevent:1\"><FriendlyName>Heyy</FriendlyName></u:SetFriendlyName>' + dataEnd
 
   request = req + " -H " +  '\'SOAPACTION: \"urn:Belkin:service:basicevent:1#SetFriendlyName\"\''
   request += " --data " + data
@@ -106,14 +114,23 @@ if __name__ == '__main__':
   signalstrength()
   friendlyname()
 
-  time.sleep(2)
-  setFriendlyName()
+#  time.sleep(2)
+#  setFriendlyName()
 
-#  while True:
-#    print "\n\nTURN ON"
-#    on()
-#    time.sleep(randint(5,120))
+  while True:
+    print "\n\nTURN ON"
+    on()
+    signalstrength()
+    getstate()
+    friendlyname()
+    print "################"
+    time.sleep(3)
+    #time.sleep(randint(5,120))
 
-#    print "\nTURN OFF"
-#    off()
-#    time.sleep(randint(5,120))
+    print "\nTURN OFF"
+    off()
+    signalstrength()
+    getstate()
+    friendlyname()
+    time.sleep(3)
+    #time.sleep(randint(5,120))
