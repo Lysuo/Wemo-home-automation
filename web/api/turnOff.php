@@ -1,7 +1,7 @@
 <?php
 
 $IP = $_GET['ip'];
-$PORT = "49153";
+$PORT = $_GET['port'];
 $theurl = "http://$IP:$PORT/upnp/control/basicevent1";
 
 $headers = [

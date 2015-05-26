@@ -20,13 +20,13 @@ function getDevices() {
 		
 		for (var i = 0, dev; i < devicesRes.device.length; i++) {
 		   dev = devicesRes.device[i];
-		   devices[ dev.id ] = dev.ip;
+		   devices[ dev.id ] = dev;
 		}
 		
 		console.log(devices);		
 		
 		for (var i in devices) {
-		   getState(i, devices[i]);
+		   getState(i, devices[i].ip, devices[i].port);
 		}
 	
 	},	
@@ -39,13 +39,13 @@ function getDevices() {
 	});
 }
 
-function getState(deviceID, ip) {
+function getState(deviceID, ip, port) {
 	
 	$.ajax({
         type: 'GET' ,
         url: "api/getState.php",
         contentType: "application/x-www-form-urlencoded;charset=utf-8",
-		data:{'ip': ip},
+		data:{'ip': ip, 'port': port},
         datatype: "json",
         async: true,
 	
@@ -117,7 +117,7 @@ function switchWemo(urlSwitch, deviceID) {
         type: 'GET' ,
         url: urlSwitch,
         contentType: "application/x-www-form-urlencoded;charset=utf-8",
-		data:{'ip': devices[deviceID]},
+		data:{'ip': devices[deviceID].ip, 'port': devices[deviceID].port},
         datatype: "json",
         async: true,
 	

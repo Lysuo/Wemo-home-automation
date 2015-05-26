@@ -1,14 +1,14 @@
-import os, time
+import os, time, sys
 from random import randint
 import subprocess
 
 agentuser = ''
 
 #ip = '192.168.0.100'
-ip = '192.168.0.102'
+#ip = '192.168.0.102'
 #ip = '192.168.0.120'
 
-port = '49153'
+#port = '49153'
 
 # headers
 headers = ['\'Accept: \'', '\'Content-type: text/xml; charset=\"utf-8\"\'']
@@ -69,20 +69,34 @@ def getFriendlyName():
 
 if __name__ == '__main__':
 
-  tab = ['GetMacAddr', 'GetDeviceId', 'GetSmartDevInfo']
-  out = [['MacAddr', 'SerialNo', 'PluginUDN'], ['DeviceId'], ['SmartDevInfo']]
+  if len(sys.argv) == 4:
+    ip = sys.argv[1]
+    port = sys.argv[2]
+    getInfos('basicevent', 'ChangeFriendlyName', ['FriendlyName'], [sys.argv[3]], ['FriendlyName'])
+    getState()
+    getFriendlyName()
 
-  for i, e in enumerate(tab):
-    getInfos('basicevent', e, [], [], out[i])
+  if len(sys.argv) == 3:
+    ip = sys.argv[1]
+    port = sys.argv[2]
+    getState()
+    getFriendlyName()
+
+  if len(sys.argv) == 1:
+    tab = ['GetMacAddr', 'GetDeviceId', 'GetSmartDevInfo']
+    out = [['MacAddr', 'SerialNo', 'PluginUDN'], ['DeviceId'], ['SmartDevInfo']]
+
+    for i, e in enumerate(tab):
+      getInfos('basicevent', e, [], [], out[i])
 
  
-  print "##################"
-  getFriendlyName()
-  getState()
-  on()
-  getState()
-  off()
-  getState()
+    print "##################"
+    getFriendlyName()
+    getState()
+    on()
+    getState()
+    off()
+    getState()
 
 #  print "\n################"
 #  getInfos('deviceinfo', 'GetDeviceInformation', ['DeviceInformation'], ['0'])

@@ -2,19 +2,22 @@
 	<device>
 		<id>1</id>
 		<name>WeMo LightSwitch</name>
-		<ip>192.168.0.100</ip>
+		<ip>192.168.0.123</ip>
+		<port>49154</port>
 		<mac>94:10:3E:47:DF:D5</mac>
 	</device>
 	<device>
 		<id>2</id>
 		<name>Ventilador</name>
-		<ip>192.168.0.102</ip>
+		<ip>192.168.0.100</ip>
+		<port>49153</port>
 		<mac>94:10:3E:47:FC:ED</mac>
 	</device>
 	<device>
 		<id>3</id>
 		<name>Luz de Reunion</name>
 		<ip>192.168.0.120</ip>
+		<port>49153</port>
 		<mac>94:10:3E:48:05:71</mac>
 	</device>
 </devices>

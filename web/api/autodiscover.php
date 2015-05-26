@@ -15,7 +15,7 @@ $xml = [
 	'<?xml version="1.0" encoding="utf-8"?><s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><s:Body><u:GetFriendlyName xmlns:u="urn:Belkin:service:basicevent:1"><FriendlyName>0</FriendlyName></u:GetFriendlyName></s:Body></s:Envelope>' 
 	];
 
-for ($j=100; $j<115; $j++) {
+for ($j=100; $j<130; $j++) {
 	
 	$IP = '192.168.0.' . $j;
 	$theurl = "http://$IP:$PORT/upnp/control/basicevent1";
