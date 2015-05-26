@@ -1,47 +1,66 @@
 <?php
 
-function parseMSearchResponse( $response )
-	{
-		$responseArr = explode( "\r\n", $response );
-		$parsedResponse = array();
-		foreach( $responseArr as $row ) {
-			if( stripos( $row, 'http' ) === 0 )
-					$parsedResponse['http'] = $row;
-			if( stripos( $row, 'cach' ) === 0 )
-					$parsedResponse['cache-control'] = str_ireplace( 'cache-control: ', '', $row );
-			if( stripos( $row, 'date') === 0 )
-					$parsedResponse['date'] = str_ireplace( 'date: ', '', $row );
-			if( stripos( $row, 'ext') === 0 )
-					$parsedResponse['ext'] = str_ireplace( 'ext: ', '', $row );
-			if( stripos( $row, 'loca') === 0 )
-					$parsedResponse['location'] = str_ireplace( 'location: ', '', $row );
-			if( stripos( $row, 'serv') === 0 )
-					$parsedResponse['server'] = str_ireplace( 'server: ', '', $row );
-			if( stripos( $row, 'st:') === 0 )
-					$parsedResponse['st'] = str_ireplace( 'st: ', '', $row );
-			if( stripos( $row, 'usn:') === 0 )
-					$parsedResponse['usn'] = str_ireplace( 'usn: ', '', $row );
-			if( stripos( $row, 'cont') === 0 )
-					$parsedResponse['content-length'] = str_ireplace( 'content-length: ', '', $row );
-		}
-		return $parsedResponse;
+
+function myprint_r($my_array) {
+    if (is_array($my_array)) {
+        echo "<table border=1 cellspacing=0 cellpadding=3 width=100%>";
+        echo '<tr><td colspan=2 style="background-color:#333333;"><strong><font color=white>ARRAY</font></strong></td></tr>';
+        foreach ($my_array as $k => $v) {
+                echo '<tr><td valign="top" style="width:40px;background-color:#F0F0F0;">';
+                echo '<strong>' . $k . "</strong></td><td>";
+                myprint_r($v);
+                echo "</td></tr>";
+        }
+        echo "</table>";
+        return;
+    }
+    echo $my_array;
+}
+
+function parseMSearchResponse( $response ) 	{
+	$responseArr = explode( "\r\n", $response );
+	//print_r($responseArr);
+	$parsedResponse = array();
+	foreach( $responseArr as $row ) {
+		if( stripos( $row, 'http' ) === 0 )
+			$parsedResponse['http'] = $row;
+		if( stripos( $row, 'cach' ) === 0 )
+			$parsedResponse['cache-control'] = str_ireplace( 'cache-control: ', '', $row );
+		if( stripos( $row, 'date') === 0 )
+			$parsedResponse['date'] = str_ireplace( 'date: ', '', $row );
+		if( stripos( $row, 'ext') === 0 )
+			$parsedResponse['ext'] = str_ireplace( 'ext: ', '', $row );
+		if( stripos( $row, 'loca') === 0 )
+			$parsedResponse['location'] = str_ireplace( 'location: ', '', $row );
+		if( stripos( $row, 'serv') === 0 )
+			$parsedResponse['server'] = str_ireplace( 'server: ', '', $row );
+		if( stripos( $row, 'st:') === 0 )
+			$parsedResponse['st'] = str_ireplace( 'st: ', '', $row );
+		if( stripos( $row, 'usn:') === 0 )
+			$parsedResponse['usn'] = str_ireplace( 'usn: ', '', $row );
+		if( stripos( $row, 'cont') === 0 )
+			$parsedResponse['content-length'] = str_ireplace( 'content-length: ', '', $row );
 	}
+	return $parsedResponse;
+}
 
 $st = 'ssdp:all'; 
-$mx = 2;
+$st2 = 'urn:Belkin'; 
+$mx = '5';
 $man = 'ssdp:discover';
 $from = null;
 $port = null;
-$sockTimout = '5';
-$user_agent = 'MacOSX/10.8.2 UPnP/1.1 PHP-UPnP/0.0.1a';
+$sockTimout = '7';
+$user_agent = 'Linux UPnP/1.1 crash/1.0';
 
 // BUILD MESSAGE
 $msg  = 'M-SEARCH * HTTP/1.1' . "\r\n";
-$msg .= 'HOST: 239.255.255.250:1900' ."\r\n";
+$msg .= 'HOST: 239.255.255.250:1900' . "\r\n";
 $msg .= 'MAN: "'. $man .'"' . "\r\n";
 $msg .= 'MX: '. $mx ."\r\n";
 $msg .= 'ST:' . $st ."\r\n";
-//$msg .= 'USER-AGENT: '. $user_agent ."\r\n";
+//$msg .= 'ST:' . $st2 ."\r\n";
+$msg .= 'USER-AGENT: '. $user_agent ."\r\n";
 $msg .= '' ."\r\n";
 
 // MULTICAST MESSAGE
@@ -62,23 +81,6 @@ do {
 
 // CLOSE SOCKET
 socket_close( $sock );
-
-function myprint_r($my_array) {
-    if (is_array($my_array)) {
-        echo "<table border=1 cellspacing=0 cellpadding=3 width=100%>";
-        echo '<tr><td colspan=2 style="background-color:#333333;"><strong><font color=white>ARRAY</font></strong></td></tr>';
-        foreach ($my_array as $k => $v) {
-                echo '<tr><td valign="top" style="width:40px;background-color:#F0F0F0;">';
-                echo '<strong>' . $k . "</strong></td><td>";
-                myprint_r($v);
-                echo "</td></tr>";
-        }
-        echo "</table>";
-        return;
-    }
-    echo $my_array;
-}
-
 myprint_r($response);
 		
-		?>
+?>

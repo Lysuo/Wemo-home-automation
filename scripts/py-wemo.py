@@ -48,8 +48,9 @@ def getInfos(service, action, name, value, output):
     strOut += ""
     print "\n################## " +action + " ############## \n" + strOut
 
-#  out = getResponse(request)
-#  print out
+  else :
+    out = getResponse(request)
+    print out
 
 
 def on():
@@ -81,6 +82,12 @@ if __name__ == '__main__':
     port = sys.argv[2]
     getState()
     getFriendlyName()
+
+    getInfos('timesync', 'GetTime', [], [], [])
+    getInfos('deviceinfo', 'GetDeviceInformation', ['DeviceInformation'], ['0'], [])
+
+#    getInfos('rules', 'GetRulesDBPath', ['RulesDBPath'], ['0'], [])
+
 
   if len(sys.argv) == 1:
     tab = ['GetMacAddr', 'GetDeviceId', 'GetSmartDevInfo']
