@@ -20,6 +20,7 @@ $xml = [
 
 $return_arr = array();
 $return_arr["IP"] = $IP;
+$return_arr["PORT"] = $PORT;
 	
 for ($i=0; $i<4; $i++) {
 
